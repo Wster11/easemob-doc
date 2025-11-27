@@ -45,6 +45,10 @@ export default hopeTheme(<ThemeOptions & CustomConfig>{
   ],
   editLink: false,
   plugins: {
+    prismjs:{
+      light: "vsc-dark-plus",
+      dark: "vsc-dark-plus",
+    },
     mdEnhance: {
       container: true,
       imgSize: true,

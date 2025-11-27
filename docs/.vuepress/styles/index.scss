@@ -197,28 +197,6 @@ $theme-color: #303233;
   }
 }
 
-div[class*="language-"] {
-  padding-top: 2px;
-  border: 1px solid var(--codes-border-color-dark);
-  background: var(--codes-bg-color-dark);
-  box-shadow: 0 -1px 0 0 #ebeef5 inset;
-
-  code {
-    color: #fff !important;
-
-    .token.punctuation {
-      color: #fff;
-    }
-  }
-}
-
-div[class*="language-"]::before {
-  right: 5em;
-}
-
-div[class*="language-"] > button.copy-code-button:not(.fancy) {
-  right: 1em;
-}
 
 .sidebar-group .sidebar-group {
   -webkit-padding-start: 1em;
@@ -355,3 +333,65 @@ button {
 *::-webkit-scrollbar-track {
   background: #fff;
 }
+
+/* ========== 侧边栏菜单分割线样式 ========== */
+
+/* 使用 "---" 字符串创建的分割线样式 */
+/* 在 sidebar 配置中使用 "---" 即可在该位置显示分割线 */
+
+// 匹配包含 /--- 的侧边栏链接(分割线)
+#sidebar a.sidebar-link[href$="/---"],
+#sidebar a.sidebar-link[href*="/---"] {
+  display: block !important;
+  height: 1px !important;
+  background-color: #e5e7eb !important;
+  padding: 0 !important;
+  min-height: 1px !important;
+  max-height: 1px !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+  cursor: default !important;
+  pointer-events: none !important;
+  border: none !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  text-indent: -9999px !important;
+  
+  // 隐藏所有内部元素
+  span,
+  * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  &::before,
+  &::after {
+    display: none !important;
+  }
+  
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #e5e7eb !important;
+    color: transparent !important;
+    text-decoration: none !important;
+  }
+}
+
+/* ========== 不重要菜单样式 ========== */
+
+/* 为不重要的菜单添加特殊样式 */
+/* 使用方法:在侧边栏链接后添加 #deprecated 标识 */
+/* 例如: { text: "旧内容", link: "old.html#deprecated" } */
+
+// 方法1: 通过链接的 hash 标识
+#sidebar a.sidebar-link[href*="#deprecated"],
+#sidebar a.sidebar-link[href$="#deprecated"] {
+  opacity: 0.6;
+  font-size: 0.9em;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+

@@ -11,6 +11,7 @@ export const zhSidebar = sidebar({
   "/product/": [
     { text: "产品动态", link: "product_dynamics.html" },
     { text: "产品简介", link: "introduction.html" },
+    "---", // 分割线
     { text: "购买指南", 
       collapsible: true,
       children: [
@@ -393,13 +394,14 @@ export const zhSidebar = sidebar({
       text: "Console 指南（旧）",
       collapsible: true,
       children: [
-        { text: "开通和配置服务", link: "enable_and_configure_IM.html" },
-        { text: "消息量统计", link: "message_statistics.html" },
-        { text: "请求质量概览", link: "request_quality_overview.html" },
+        { text: "开通和配置服务", link: "enable_and_configure_IM.html#deprecated" },
+        { text: "消息量统计", link: "message_statistics.html#deprecated" },
+        { text: "请求质量概览", link: "request_quality_overview.html#deprecated" },
       ],
     },
     { text: "术语表", link: "glossary.html" },
     { text: "帮助中心", link: "help.html" },
+    "---", // 分割线
     {
       text: "已废弃内容",
       collapsible: true,
@@ -408,9 +410,9 @@ export const zhSidebar = sidebar({
           text: "环信 AIGC",
           collapsible: true,
           children: [
-            { text: "方案介绍", link: "aigc_api/aigc_introduction.html" },
-            { text: "使用 AI 智能功能", link: "aigc_api/aigc_use.html" },
-            { text: "REST API", link: "aigc_api/aigc_rest_api.html" },
+            { text: "方案介绍", link: "aigc_api/aigc_introduction.html#deprecated" },
+            { text: "使用 AI 智能功能", link: "aigc_api/aigc_use.html#deprecated" },
+            { text: "REST API", link: "aigc_api/aigc_rest_api.html#deprecated" },
           ], 
         }, 
       ], 
