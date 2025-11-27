@@ -384,14 +384,20 @@ button {
 /* 使用方法:在侧边栏链接后添加 #deprecated 标识 */
 /* 例如: { text: "旧内容", link: "old.html#deprecated" } */
 
-// 方法1: 通过链接的 hash 标识
+// 通过链接的 hash 标识匹配不重要的菜单
 #sidebar a.sidebar-link[href*="#deprecated"],
 #sidebar a.sidebar-link[href$="#deprecated"] {
   opacity: 0.6;
   font-size: 0.9em;
+  color: #9ca3af;
   
   &:hover {
     opacity: 0.8;
+  }
+  
+  // 阻止点击时跳转到锚点
+  &:focus {
+    outline: none;
   }
 }
 
