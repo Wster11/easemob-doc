@@ -1,6 +1,6 @@
 <template>
   <ais-instant-search
-    index-name="im-beta-easemob"
+    :index-name="indexName"
     :search-client="searchClient"
     :initial-ui-state="initialUiState"
   >
@@ -113,6 +113,20 @@
 
 <script>
 import { liteClient as algoliasearch } from "algoliasearch/lite";
+import { getVersionPrefix } from "../utils/versioning";
+
+const ALGOLIA_CONFIG = {
+  v4: {
+    appId: "5K8UTB3JVE",
+    apiKey: "df9e938d06f6531ce8dd8de71f907f0d",
+    indexName: "im-beta-easemob"
+  },
+  v5: {
+    appId: "5K8UTB3JVE",
+    apiKey: "704ce0264ed7d6fd61300b1fddf0e14a",
+    indexName: "v5-im-doc"
+  }
+};
 
 const sdkCategoryMap = {
   "Android 集成文档": "Android",
@@ -199,15 +213,15 @@ export default {
     const route = this.$route;
     const queryParam = route.query.query || "";
     const categoryParam = route.query.s;
+    const versionKey = getVersionPrefix(route.path) ? "v5" : "v4";
+    const { appId, apiKey, indexName } = ALGOLIA_CONFIG[versionKey];
 
     return {
       categoryMap,
-      searchClient: algoliasearch(
-        "5K8UTB3JVE",
-        "df9e938d06f6531ce8dd8de71f907f0d"
-      ),
+      indexName,
+      searchClient: algoliasearch(appId, apiKey),
       initialUiState: {
-        ["im-beta-easemob"]: {
+        [indexName]: {
           query: queryParam,
           refinementList: {
             type: ["content"],

@@ -1,10 +1,13 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 import { ElMessage } from "element-plus";
 import Navbar from "vuepress-theme-hope/modules/navbar/components/Navbar.js";
 import { useThemeLocaleData } from "vuepress-theme-hope/composables/index";
+import { withVersionPrefix } from "../utils/versioning";
 
 const themeData = useThemeLocaleData();
+const route = useRoute();
 const extraNavList = computed(() => themeData.value.extra_nav || []);
 
 const SESSION_COOKIE_NAME = "u_session_name";
@@ -47,9 +50,10 @@ const syncUserSession = () => {
 
 const handleSearch = () => {
   const keyword = document.getElementById("meta-category")?.innerText;
+  const searchPath = withVersionPrefix("/form/search.html", route.path);
   const url = keyword
-    ? `/form/search.html?s=${encodeURIComponent(keyword)}`
-    : "/form/search.html";
+    ? `${searchPath}?s=${encodeURIComponent(keyword)}`
+    : searchPath;
 
   window.open(url, "_blank");
 };
