@@ -6,7 +6,6 @@ const getSubDirectories = (dir) =>
     .readdirSync(dir)
     .filter((item) => fs.statSync(path.join(dir, item)).isDirectory());
 const CALL_DOC_PATH = path.resolve(__dirname, "../../callkit");
-const callKitPlatformList = getSubDirectories(CALL_DOC_PATH);
 
 const callKitSidebar = [
   { text: "入门指引", link: "beginner_guide.html" },
@@ -53,6 +52,7 @@ const callKitSidebar = [
 
 function buildCallKitSidebar() {
   const result = {};
+  const callKitPlatformList = getSubDirectories(CALL_DOC_PATH);
   callKitPlatformList.forEach((platform) => {
     const key = `/callkit/${platform}/`;
     result[key] = callKitSidebar

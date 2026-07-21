@@ -2,6 +2,7 @@
 <script lang="ts" setup>
 import { ref, watch, computed } from 'vue'
 import { useRoute, useRouter} from 'vue-router'
+import { getVersionPrefix, stripVersionPrefix, withVersionPrefix } from '../utils/versioning'
 
 const PLATFORM_ICON_MAP = {
   android: {
@@ -51,21 +52,24 @@ const platformIcon = computed(() => PLATFORM_ICON_MAP[platform.value]?.icon)
 const route = useRoute()
 const router = useRouter()
 watch(()=>route.path, ()=> {
-  if (route.path.indexOf('/document') == 0) {
-    platform.value = route.path.split('/')[2]
+  const pagePath = stripVersionPrefix(route.path)
+  if (pagePath.indexOf('/document') == 0) {
+    platform.value = pagePath.split('/')[2]
   }
 }, {immediate:true})
 
 
 // 切换平台，如果有相同路径的route就直接跳转
 const onChange = (platform) => {
-  const nextPlatformDocRouters = router.options.routes.filter(item=>item.hasOwnProperty('name') && item?.path.indexOf('/document/'+platform) == 0).map(item=>item.path)
+  const versionPrefix = getVersionPrefix(route.path)
+  const platformBasePath = `${versionPrefix}/document/${platform}`
+  const nextPlatformDocRouters = router.options.routes.filter(item=>item.hasOwnProperty('name') && item?.path.indexOf(platformBasePath) == 0).map(item=>item.path)
 
-  let newPath = route.path.split('/')
+  let newPath = stripVersionPrefix(route.path).split('/')
   newPath[2] = platform
-  const nextPathPath = newPath.join('/')
-  const quickstartPath = `/document/${platform}/quickstart.html`;
-  const overviewPath = `/document/${platform}/overview.html`;
+  const nextPathPath = withVersionPrefix(newPath.join('/'), route.path)
+  const quickstartPath = `${platformBasePath}/quickstart.html`;
+  const overviewPath = `${platformBasePath}/overview.html`;
   if (nextPlatformDocRouters.indexOf(nextPathPath) > -1) {
     router.push(nextPathPath);
   } else if (nextPlatformDocRouters.indexOf(quickstartPath) > -1) {
@@ -73,7 +77,7 @@ const onChange = (platform) => {
   } else if (nextPlatformDocRouters.indexOf(overviewPath) > -1) {
     router.push(overviewPath);
   } else {
-    router.push(`/document/${platform}`);
+    router.push(platformBasePath);
   }
 }
 

@@ -226,6 +226,16 @@ export default defineUserConfig({
       './components/Navbar.vue'
     ),
 
+    '@theme-hope/modules/navbar/components/NavbarLinks': path.resolve(
+      __dirname,
+      './components/NavbarLinks.ts'
+    ),
+
+    '@theme-hope/modules/navbar/components/NavScreenLinks': path.resolve(
+      __dirname,
+      './components/NavScreenLinks.ts'
+    ),
+
     '@theme-hope/components/MarkdownContent': path.resolve(
       __dirname,
       './components/MarkdownContent.vue'

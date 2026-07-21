@@ -1,9 +1,10 @@
-import { navbar } from 'vuepress-theme-hope'
+import type { NavbarOptions } from 'vuepress-theme-hope'
 
-export const zhNavbar = navbar([
+export const v4Navbar: NavbarOptions = [
   {
     text: 'V4.x',
       children: [
+        { text: "V5.x", link: "/v5/product/introduction.html" },
         { text: 'V4.x', link: 'https://doc.easemob.com/product/introduction.html'},
         { text: 'V3.x', link: 'https://docs-im.easemob.com/ccim/intro'},
         { text: 'V2.x', link: 'https://docs-im.easemob.com/start/start'}
@@ -283,4 +284,6 @@ export const zhNavbar = navbar([
   // },
   //  { text: '历史版本', link: 'https://docs-im.easemob.com/ccim/intro' },
   // { text: '有奖调研', link: 'https://doc.easemob.com/form/wjx.html' }
-])
+]
+
+export const zhNavbar = v4Navbar

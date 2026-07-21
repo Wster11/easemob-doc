@@ -7,8 +7,6 @@ const getSubDirectories = (dir) =>
     .filter((item) => fs.statSync(path.join(dir, item)).isDirectory());
 const CHAT_DOC_PATH = path.resolve(__dirname, "../../uikit/chatuikit");
 const CHATROOM_DOC_PATH = path.resolve(__dirname, "../../uikit/chatroomuikit");
-const chatPlatformList = getSubDirectories(CHAT_DOC_PATH);
-const chatroomPlatformList = getSubDirectories(CHATROOM_DOC_PATH);
 
 const chatUikitSidebar = [
   { text: "入门指引", link: "beginner_guide.html" },
@@ -318,6 +316,7 @@ const chatroomUikitSidebar = [
 
 function buildChatUikitSidebar() {
   const result = {};
+  const chatPlatformList = getSubDirectories(CHAT_DOC_PATH);
   chatPlatformList.forEach((platform) => {
     const key = `/uikit/chatuikit/${platform}/`;
     result[key] = chatUikitSidebar
@@ -331,6 +330,7 @@ function buildChatUikitSidebar() {
 
 function buildChatroomUikitSidebar() {
   const result = {};
+  const chatroomPlatformList = getSubDirectories(CHATROOM_DOC_PATH);
   chatroomPlatformList.forEach((platform) => {
     const key = `/uikit/chatroomuikit/${platform}/`;
     result[key] = chatroomUikitSidebar

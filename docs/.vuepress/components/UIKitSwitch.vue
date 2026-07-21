@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { getVersionPrefix, stripVersionPrefix, withVersionPrefix } from "../utils/versioning";
 
 const PLATFORM_ICON_MAP = {
   android: {
@@ -100,8 +101,9 @@ const router = useRouter();
 watch(
   () => route.path,
   () => {
-    if (route.path.indexOf("/uikit") == 0) {
-      const splitRoute = route.path.split("/");
+    const pagePath = stripVersionPrefix(route.path);
+    if (pagePath.indexOf("/uikit") == 0) {
+      const splitRoute = pagePath.split("/");
       kitType.value = splitRoute[2];
       platform.value = splitRoute[3];
     }
@@ -111,29 +113,31 @@ watch(
 
 // 切换平台，如果有相同路径的route就直接跳转
 const onChange = (platform) => {
+  const versionPrefix = getVersionPrefix(route.path);
+  const platformBasePath = `${versionPrefix}/uikit/${kitType.value}/${platform}`;
   const nextPlatformDocRouters = router.options.routes
     .filter(
       (item) =>
         item.hasOwnProperty("name") &&
-        item?.path.indexOf(`/uikit/${kitType.value}/${platform}`) == 0
+        item?.path.indexOf(platformBasePath) == 0
     )
     .map((item) => item.path);
 
-  let newPath = route.path.split("/");
+  let newPath = stripVersionPrefix(route.path).split("/");
   newPath[3] = platform;
-  const nextPathPath = newPath.join("/");
+  const nextPathPath = withVersionPrefix(newPath.join("/"), route.path);
 
   if (nextPlatformDocRouters.indexOf(nextPathPath) > -1) {
     router.push(nextPathPath);
   } else {
     if (kitType.value == "chatuikit") {
       router.push(
-        `/uikit/${kitType.value}/${platform}/chatuikit_overview.html`
+        `${platformBasePath}/chatuikit_overview.html`
       );
     }
     if (kitType.value == "chatroomuikit") {
       router.push(
-        `/uikit/${kitType.value}/${platform}/roomuikit_overview.html`
+        `${platformBasePath}/roomuikit_overview.html`
       );
     }
   }

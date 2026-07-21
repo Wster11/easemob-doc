@@ -3,7 +3,6 @@ import fs from "node:fs"
 
 const getSubDirectories = (dir) => fs.readdirSync(dir).filter(item => fs.statSync(path.join(dir, item)).isDirectory())
 const DOC_PATH = path.resolve(__dirname, '../../document')
-const platformList = getSubDirectories(DOC_PATH)
 
 const documentSidebar = [
   { text: "入门指引", link: "beginner_guide.html" },
@@ -971,6 +970,7 @@ const documentSidebar = [
 
 function buildDocSidebar() {
   const result = {}
+  const platformList = getSubDirectories(DOC_PATH)
   platformList.forEach(platform => {
     const key = `/document/${platform}/`
     result[key] = documentSidebar.map(sidebar => handleSidebarItem(platform, sidebar)).filter(s => s)
@@ -1033,9 +1033,6 @@ function handleSidebarItem(platform, sidebar) {
   }
   if (hasChildren) {
     let newchildren = sidebar.children.map(s => handleSidebarItem(platform, s)).filter(s=>s)
-    // newchildren = newchildren.reduce((r, cur)=> {
-    //   return r.find(i => i.link === cur.link)? r: [...r, cur]
-    // }, [])
     if (newchildren.length > 0) {
       return {...sidebar, children: newchildren }
     }

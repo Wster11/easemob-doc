@@ -6,6 +6,7 @@
   import CallKitSwitch from './CallKitSwitch.vue'
   import { usePageData } from '@vuepress/client'
   import { nextTick, ref, onMounted, watch} from 'vue'
+  import { stripVersionPrefix } from '../utils/versioning'
 
   const pageData = usePageData()
   const showPlatformSwitch = ref(false)
@@ -46,7 +47,7 @@
   })
 
   watch(pageData, ()=> {
-    const pagePath = pageData.value.path
+    const pagePath = stripVersionPrefix(pageData.value.path)
     showPrivateSwitch.value = pagePath.indexOf('/private/') == 0
     showPlatformSwitch.value = pagePath.indexOf('/document/') == 0 && pagePath.indexOf('/server-side/') < 0
     showUIKitSwitch.value = pagePath.indexOf('/uikit/') == 0

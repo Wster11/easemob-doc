@@ -17,6 +17,7 @@ export default hopeTheme(<ThemeOptions & CustomConfig>{
   darkmode: 'disable',
   pure: true,
   contributors: false,
+  lastUpdated: false,
   // navbar
   navbar: zhNavbar,
   navbarLayout: {
@@ -33,6 +34,7 @@ export default hopeTheme(<ThemeOptions & CustomConfig>{
   prevLink: false,
   nextLink: false,
   plugins: {
+    git: false,
     mdEnhance: {
       container: true,
       imgSize: true,

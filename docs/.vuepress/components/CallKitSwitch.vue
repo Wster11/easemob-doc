@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { getVersionPrefix, stripVersionPrefix, withVersionPrefix } from "../utils/versioning";
 
 const PLATFORM_ICON_MAP = {
   android: {
@@ -78,8 +79,9 @@ const router = useRouter();
 watch(
   () => route.path,
   () => {
-    if (route.path.indexOf("/callkit") == 0) {
-      const splitRoute = route.path.split("/");
+    const pagePath = stripVersionPrefix(route.path);
+    if (pagePath.indexOf("/callkit") == 0) {
+      const splitRoute = pagePath.split("/");
       platform.value = splitRoute[2];
     }
   },
@@ -88,22 +90,24 @@ watch(
 
 // 切换平台，如果有相同路径的route就直接跳转
 const onChange = (platform) => {
+  const versionPrefix = getVersionPrefix(route.path);
+  const platformBasePath = `${versionPrefix}/callkit/${platform}`;
   const nextPlatformDocRouters = router.options.routes
     .filter(
       (item) =>
         item.hasOwnProperty("name") &&
-        item?.path.indexOf(`/callkit/${platform}`) == 0
+        item?.path.indexOf(platformBasePath) == 0
     )
     .map((item) => item.path);
 
-  let newPath = route.path.split("/");
+  let newPath = stripVersionPrefix(route.path).split("/");
   newPath[2] = platform;
-  const nextPathPath = newPath.join("/");
+  const nextPathPath = withVersionPrefix(newPath.join("/"), route.path);
 
   if (nextPlatformDocRouters.indexOf(nextPathPath) > -1) {
     router.push(nextPathPath);
   } else {
-    router.push(`/callkit/${platform}/product_overview.html`);
+    router.push(`${platformBasePath}/product_overview.html`);
   }
 };
 </script>
